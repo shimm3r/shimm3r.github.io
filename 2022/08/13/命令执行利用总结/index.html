@@ -24,7 +24,7 @@
 <meta property="og:description" content="常见linux命令https:&#x2F;&#x2F;www.runoob.com&#x2F;linux&#x2F;linux-command-manual.html cd：切换当前工作目录；用法：cd后面加目录（1）cd &#x2F;：进入根目录（2）cd ..&#x2F;：返回上一级目录（3）cd .&#x2F;：进入当前目录 以&#x2F;开头为绝对路径，即从文件系统的根目录开始访问，是确定的路径 以其他开头为相对路径,即从当前目">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-08-13T01:22:03.000Z">
-<meta property="article:modified_time" content="2022-08-13T03:42:57.077Z">
+<meta property="article:modified_time" content="2022-08-13T04:49:58.975Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -230,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k words
+          1.7k words
         
       </span>
     
@@ -241,7 +241,7 @@
         
         
         
-          12 mins
+          15 mins
         
       </span>
     
@@ -300,6 +300,8 @@
 <p>ping 测试与指定网络是否连通</p>
 <p><a target="_blank" rel="noopener" href="http://dnslog.cn/">http://dnslog.cn/</a> dns平台</p>
 <p><code>ping kxuxp3.dnslog.cn</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">error_reporting(0);<br><span class="hljs-keyword">if</span>(isset(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;c&#x27;</span>]))&#123;<br>    <span class="hljs-variable">$c</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;c&#x27;</span>];<br>    <span class="hljs-keyword">if</span>(!preg_match(<span class="hljs-string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;/i&quot;</span>, <span class="hljs-variable">$c</span>))&#123;<br>        <span class="hljs-built_in">eval</span>(<span class="hljs-variable">$c</span>);<br>    &#125;<br>    过滤了flag system php <span class="hljs-built_in">cat</span> <span class="hljs-built_in">sort</span> shell . 空格 <span class="hljs-string">&#x27;</span><br><span class="hljs-string">&#125;else&#123;</span><br><span class="hljs-string">    highlight_file(__FILE__);</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
 <p>nl命令在linux系统中用来计算文件中行号。nl 可以将输出的文件内容自动的加上行号！其默认的结果与 cat -n 有点不太一样， nl 可以将行号做比较多的显示设计，包括位数与是否自动补齐 0 等等的功能。</p>
 <p>**　　1．命令格式：**</p>
 <p>　　nl ［选项］。。。 ［文件］。。。</p>
