@@ -1396,7 +1396,7 @@ figure.highlight td.code > pre {
   background-color: transparent;
 }
 .markdown-body blockquote {
-  color: var(--sec-text-color);
+  color: var(--sec-text-color,purple);
 }
 .markdown-body details {
   cursor: pointer;
