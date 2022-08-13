@@ -24,7 +24,7 @@
 <meta property="og:description" content="常见linux命令https:&#x2F;&#x2F;www.runoob.com&#x2F;linux&#x2F;linux-command-manual.html cd：切换当前工作目录；用法：cd后面加目录（1）cd &#x2F;：进入根目录（2）cd ..&#x2F;：返回上一级目录（3）cd .&#x2F;：进入当前目录 以&#x2F;开头为绝对路径，即从文件系统的根目录开始访问，是确定的路径 以其他开头为相对路径,即从当前目">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-08-13T01:22:03.000Z">
-<meta property="article:modified_time" content="2022-08-13T05:40:13.748Z">
+<meta property="article:modified_time" content="2022-08-13T06:35:16.436Z">
 <meta property="article:author" content="shimm3r">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -230,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k words
+          1.7k words
         
       </span>
     
@@ -241,7 +241,7 @@
         
         
         
-          18 mins
+          15 mins
         
       </span>
     
@@ -303,6 +303,7 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;c&#x27;</span>]))&#123;<br>    <span class="hljs-variable">$c</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;c&#x27;</span>];<br>    <span class="hljs-keyword">if</span>(!<span class="hljs-title function_ invoke__">preg_match</span>(<span class="hljs-string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;/i&quot;</span>, <span class="hljs-variable">$c</span>))&#123;<br>        <span class="hljs-keyword">eval</span>(<span class="hljs-variable">$c</span>);<br>    &#125;<br>    过滤了flag system php cat sort shell . 空格 <span class="hljs-string">&#x27;</span><br><span class="hljs-string">&#125;else&#123;</span><br><span class="hljs-string">    highlight_file(__FILE__);</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
 
 <p>nl命令在linux系统中用来计算文件中行号。nl 可以将输出的文件内容自动的加上行号！其默认的结果与 cat -n 有点不太一样， nl 可以将行号做比较多的显示设计，包括位数与是否自动补齐 0 等等的功能。</p>
+<blockquote>
 <p>**　　1．命令格式：**</p>
 <p>　　nl ［选项］。。。 ［文件］。。。</p>
 <p>**　　2．命令参数：**</p>
@@ -317,14 +318,8 @@
 <p>　　-p 在逻辑定界符处不重新开始计算。</p>
 <p>**　　3．命令功能：**</p>
 <p>　　nl 命令读取 File 参数（缺省情况下标准输入），计算输入中的行号，将计算过的行号写入标准输出。 在输出中，nl 命令根据您在命令行中指定的标志来计算左边的行。 输入文本必须写在逻辑页中。每个逻辑页有头、主体和页脚节（可以有空节）。 除非使用 -p 标志，nl 命令在每个逻辑页开始的地方重新设置行号。 可以单独为头、主体和页脚节设置行计算标志（例如，头和页脚行可以被计算然而文本行不能）</p>
-<p>最容易想到的suid提权</p>
-<blockquote>
-<p>SUID (Set UID)是Linux中的一种特殊权限，其功能为用户运行某个程序时，如果该程序有SUID权限，那么程序运行为进程时，进程的属主不是发起者，而是程序文件所属的属主。但是SUID权限的设置只针对二进制可执行文件，对于非可执行文件设置SUID没有任何意义。</p>
-<p>在执行过程中，调用者会暂时获得该文件的所有者权限，且该权限只在程序执行的过程中有效。通俗的来讲，假设我们现在有一个可执行文件ls，其属主为root，当我们通过非root用户登录时，如果ls设置了SUID权限，我们可在非root用户下运行该二进制可执行文件，在执行文件时，该进程的权限将为root权限。利用此特性，我们可通过SUID进行提权。</p>
-<p>现在已知的具有SUID权限的二进制可执行文件大体有如下这些</p>
-<p>nmap<br>vim<br>find<br>bash<br>more<br>less<br>nano<br>cp<br>awk</p>
 </blockquote>
-<h3 id="在执行过程中，调用者会暂时获得该文件的所有者权限，且该权限只在程序执行的过程中有"><a href="#在执行过程中，调用者会暂时获得该文件的所有者权限，且该权限只在程序执行的过程中有" class="headerlink" title="在执行过程中，调用者会暂时获得该文件的所有者权限，且该权限只在程序执行的过程中有"></a>在执行过程中，调用者会暂时获得该文件的所有者权限，且该权限只在程序执行的过程中有</h3>
+
                 
               </div>
             
