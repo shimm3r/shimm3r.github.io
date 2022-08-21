@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://image.3001.net/images/20210114/1610598043_5fffc69b181c82c561065.png">
 <meta property="og:image" content="http://shimm3r.github.io/image/8.png">
 <meta property="article:published_time" content="2022-08-13T03:32:17.000Z">
-<meta property="article:modified_time" content="2022-08-21T07:58:44.670Z">
+<meta property="article:modified_time" content="2022-08-21T08:01:17.356Z">
 <meta property="article:author" content="shimm3r">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://image.3001.net/images/20210114/1610597995_5fffc66bd4875385a330e.png!small">
@@ -373,7 +373,7 @@
 <p>借助burpsuite的Intruder模块队xxx.xxx.xxx.<code>$a$</code>进行爆破</p>
 <p>也可以对端口进行爆破</p>
 <p>或者利用python脚本来探测（暂未研究</p>
-<p>​</p>
+<p>测试</p>
 </li>
 </ul>
 <h3 id="dict协议（扫描内网端口）"><a href="#dict协议（扫描内网端口）" class="headerlink" title="dict协议（扫描内网端口）"></a><strong>dict协议</strong>（扫描内网端口）</h3><p><strong>字典服务器器协议,dict是基于查询响应的TCP协议</strong></p>
@@ -382,10 +382,10 @@
 <p>一些协议的默认端口</p>
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">dict:</span><span class="hljs-comment">//127.0.0.1:6379/info   // redis</span><br><span class="hljs-symbol">dict:</span><span class="hljs-comment">//127.0.0.1:80/info     // http</span><br><span class="hljs-symbol">dict:</span><span class="hljs-comment">//127.0.0.1:22/info   // ssh</span><br><span class="hljs-symbol">dict:</span><span class="hljs-comment">//127.0.0.1:3306/info  //mysql</span><br><span class="hljs-symbol">dict:</span><span class="hljs-comment">//127.0.0.1:6379/KEYS *  //获取redis存储的内容 </span><br></code></pre></td></tr></table></figure>
 
-
-
+<p>测试</p>
 <h3 id="file协议"><a href="#file协议" class="headerlink" title="file协议"></a><strong>file协议</strong></h3><p>(读取内网文件)</p>
 <p>用file协议代替http协议或者https协议（如果过滤了）。在测试点输入<code>file:///etc/passwd</code>我们可以得到用户文件，我们也可以通过这样的方式获得其他文件。</p>
+<p>测试</p>
 <h3 id="gopher协议"><a href="#gopher协议" class="headerlink" title="gopher协议"></a><strong>gopher协议</strong></h3><p>Gopher协议支持发出GET、POST请求，我们可以先截获GET请求包和POST请求包，再构造成符合Gopher协议请求的payload进行SSRF利用，甚至可以用它来攻击内网中的Redis、MySql、FastCGI等应用，这无疑大大扩展了我们的SSRF攻击面。</p>
 <p><strong>（1）Gopher协议格式</strong></p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-symbol">URL:</span> <span class="hljs-symbol">gopher:</span>//&lt;host&gt;<span class="hljs-symbol">:&lt;port&gt;/&lt;gopher-path&gt;_</span>后接<span class="hljs-title class_">TCP</span>数据流<br><br><span class="hljs-comment"># 注意不要忘记后面那个下划线&quot;_&quot;，下划线&quot;_&quot;后面才开始接TCP数据流，如果不加这个&quot;_&quot;，那么服务端收到的消息将不是完整的，该字符可随意写。</span><br></code></pre></td></tr></table></figure>
@@ -584,7 +584,7 @@
 
 <p>该工具可以帮你生成符合Gopher协议格式的payload，以利用SSRF攻击Redis、FastCGI、MySql等内网应用。</p>
 <p>python2 gopherus.py –exploit redis</p>
-<p>ssrf-lab-basic</p>
+<p>ssrf-lab-basic测试</p>
 <p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45521281/article/details/106532501">GKCTF2020]EZ三剑客-EzWeb］</a>攻击内网Redis例题</p>
 <h3 id="攻击内网FastCGI"><a href="#攻击内网FastCGI" class="headerlink" title="攻击内网FastCGI"></a>攻击内网FastCGI</h3><p>Fastcgi其实是一个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE&spm=1001.2101.3001.7020">通信协议</a>，和HTTP协议一样，都是进行数据交换的一个通道。</p>
 <p>HTTP协议是浏览器和服务器中间件进行数据交换的协议，浏览器将HTTP头和HTTP体用某个规则组装成数据包，以TCP的方式发送到服务器中间件，服务器中间件按照规则将数据包解码，并按要求拿到用户需要的数据，再以HTTP协议的规则打包返回给服务器。</p>
