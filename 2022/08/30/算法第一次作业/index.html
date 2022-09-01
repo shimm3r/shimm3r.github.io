@@ -1,0 +1,678 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="shimm3r">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本学期编码需要的规则排版1.关键词和操作符之间加适当的空格。 2.相对独立的程序块与块之间加空行 3.较长的语句、表达式等要分成多行书写。 4.划分出的新行要进行适应的缩进，使排版整齐，语句可读。 5.长表达式要在低优先级操作符处划分新行，操作符放在新行之首。 6.循环、判断等语句中若有较长的表达式或语句，则要进行适应的划分。 7.若函数或过程中的参数较长，则要进行适当的划分。 8.不允许把多个短">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法第一次作业">
+<meta property="og:url" content="http://shimm3r.github.io/2022/08/30/%E7%AE%97%E6%B3%95%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A/index.html">
+<meta property="og:site_name" content="shimm3r">
+<meta property="og:description" content="本学期编码需要的规则排版1.关键词和操作符之间加适当的空格。 2.相对独立的程序块与块之间加空行 3.较长的语句、表达式等要分成多行书写。 4.划分出的新行要进行适应的缩进，使排版整齐，语句可读。 5.长表达式要在低优先级操作符处划分新行，操作符放在新行之首。 6.循环、判断等语句中若有较长的表达式或语句，则要进行适应的划分。 7.若函数或过程中的参数较长，则要进行适当的划分。 8.不允许把多个短">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-08-30T14:23:26.000Z">
+<meta property="article:modified_time" content="2022-09-01T09:26:28.516Z">
+<meta property="article:author" content="shimm3r">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>算法第一次作业 - shimm3r</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"shimm3r.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>shimm3r&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                Links
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="算法第一次作业"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-30 22:23" pubdate>
+          August 30, 2022 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">算法第一次作业</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="本学期编码需要的规则"><a href="#本学期编码需要的规则" class="headerlink" title="本学期编码需要的规则"></a>本学期编码需要的规则</h1><h2 id="排版"><a href="#排版" class="headerlink" title="排版"></a>排版</h2><p>1.关键词和操作符之间加适当的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%A9%BA%E6%A0%BC/33566?fromModule=lemma_inlink">空格</a>。</p>
+<p>2.相对独立的程序块与块之间加空行</p>
+<p>3.较长的语句、表达式等要分成多行书写。</p>
+<p>4.划分出的新行要进行适应的缩进，使排版整齐，语句可读。</p>
+<p>5.长表达式要在低优先级操作符处划分新行，操作符放在新行之首。</p>
+<p>6.循环、判断等语句中若有较长的表达式或语句，则要进行适应的划分。</p>
+<p>7.若函数或过程中的参数较长，则要进行适当的划分。</p>
+<p>8.不允许把多个短语句写在一行中，即一行只写一条语句。</p>
+<p>9.函数或过程的开始、结构的定义及循环、判断等语句中的代码都要采用缩进风格。</p>
+<p>10.C&#x2F;C++语言是用大括号‘{ ’和‘ }’界定一段程序块的，编写程序块时‘{ ’和 ‘ }’应各独占一行并且位于同一列，同时与引用它们的语句左对齐。在函数体 的开始、类的定义、结构的定义、枚举的定义以及if、for、do、while、 switch、case语句中的程序都要采用如上的缩进方式。</p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>1.<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%B3%A8%E9%87%8A?fromModule=lemma_inlink">注释</a>要简单明了。</p>
+<p>2.边写代码边注释，修改代码同时修改相应的注释，以保证注释与代码的一致性。</p>
+<p>3.在必要的地方注释，注释量要适中。注释的内容要清楚、明了，含义准确，防止 注释<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%BA%8C%E4%B9%89%E6%80%A7?fromModule=lemma_inlink">二义性</a>。保持注释与其描述的代码相邻，即注释的就近原则。</p>
+<p>4.对代码的注释应放在其上方相邻位置，不可放在下面。</p>
+<h2 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h2><p>1.较短的单词可通过去掉“元音”形成缩写；</p>
+<p>2.较长的单词可取单词的头几发符的优先级，并用括号明确表达式的操作顺序，避免使用默认优先级。</p>
+<h2 id="可读性"><a href="#可读性" class="headerlink" title="可读性"></a>可读性</h2><p>1.避免使用不易理解的数字，用有意义的标识来替代。</p>
+<p>2.不要使用难懂的技巧性很高的语句。</p>
+<p>3.源程序中关系较为紧密的代码应尽可能相邻。</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>1.去掉没必要的公<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%85%B1%E5%8F%98?fromModule=lemma_inlink">共变</a>量。</p>
+<p>2.构造仅有一个模块或函数可以修改、创建，而其余有关模块或函数只访问的公共变量，防止多个不同模块或函数都可以修改、创建同一公共变量的现象。</p>
+<p>3.仔细定义并明确公共变量的含义、作用、取值范围及公共变量间的关系。</p>
+<p>4.明确公共变量与操作此公共变量的函数或过程的关系，如访问、修改及创建等。</p>
+<p>5.当向公共变量传递数据时，要十分小心，防止赋与不合理的值或越界等现象发生。</p>
+<p>6.防止局部变量与公共变量同名。</p>
+<p>7.仔细设计结构中元素的布局与排列顺序，使结构容易理解、节省占用空间，并减少引起误用现象。</p>
+<p>8.结构的设计要尽量考虑<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%90%91%E5%89%8D%E5%85%BC%E5%AE%B9?fromModule=lemma_inlink">向前兼容</a>和以后的版本升级，并为某些未来可能的应用保留余地（如预留一些空间等）。</p>
+<p>9.留心具体语言及编译器处理不同数据类型的原则及有关细节。</p>
+<p>10.严禁使用未经初始化的变量。声明变量的同时对变量进行初始化。</p>
+<h2 id="函数过程"><a href="#函数过程" class="headerlink" title="函数过程"></a>函数过程</h2><p>1.函数的规模尽量限制在200行以内。</p>
+<p>2.一个函数最好仅完成一件功能。</p>
+<p>3.为简单功能编写函数。</p>
+<p>4.函数的功能应该是可以预测的，也就是只要输入数据相同就应产生同样的输出。</p>
+<p>5.尽量不要编写依赖于其他函数内部实现的函数。</p>
+<p>6.避免设计多参数函数，不使用的参数从接口中去掉。</p>
+<p>7.用注释详细说明每个参数的作用、取值范围及参数间的关系。</p>
+<p>8.检查函数所有参数输入的有效性。</p>
+<p>9.检查函数所有非参数输入的有效性，如数据文件、公共变量等。</p>
+<p>10.函数名应准确<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%8F%8F%E8%BF%B0%E5%87%BD%E6%95%B0?fromModule=lemma_inlink">描述函数</a>的功能。</p>
+<p>11.避免使用无意义或含义不清的动词为函数命名</p>
+<p>12.函数的返回值要清楚、明了，让使用者不容易忽视错误情况。</p>
+<p>13&#x2F;明确函数功能，精确（而不是近似）地实现函数设计。</p>
+<p>14.减少函数本身或函数间的递归调用。</p>
+<h2 id="程序效率"><a href="#程序效率" class="headerlink" title="程序效率"></a>程序效率</h2><p>1.编程时要经常注意代码的效率。</p>
+<p>2.在保证软件系统的正确性、稳定性、可读性及可测性的前提下，提高代码效率。</p>
+<p>3.不能一味地追求代码效率，而对软件的正确性、稳定性、可读性及可测性造成影响。</p>
+<p>4.编程时，要随时留心代码效率；优化代码时，要考虑周全。</p>
+<p>5.要仔细地构造或直接用汇编编写调用频繁或性能要求极高的函数。</p>
+<p>6.通过对系统数据结构划分与组织的改进，以及对程序算法的优化来提高空间效率。</p>
+<p>7.在多重循环中，应将最忙的循环放在最内层。</p>
+<p>8.尽量减少循环嵌套层次。</p>
+<p>9.避免循环体内含判断语句，应将循环语句置于判断语句的代码块之中。</p>
+<p>10.尽量用乘法或其它方法代替除法，特别是浮点运算中的除法。</p>
+<h1 id="数学之美读后感"><a href="#数学之美读后感" class="headerlink" title="数学之美读后感"></a>数学之美读后感</h1><p>重点去看了第九章 图论和网络爬虫</p>
+<p>在上学期的离散数学中，我们也重点学习了图论，在数学之美中看到也感觉十分熟悉，著名的哈密尔顿图，哈密尔顿回路，欧拉图以及欧拉回路，广度优先算法、深度优先算法，这些看似很理论的东西确与实际生活息息相关，如今全球使用的卫星地图等正是在这些的基础上，才得以发展和使用。</p>
+<p>而图论的应用不仅仅是卫星地图等，还有我们每天都在使用的搜索引擎，图论的遍历算法和搜索引擎有着密切的关系。</p>
+<p>互联网其实就是一张大图，当点击的时候，浏览器通过隐藏的网址跳转到相应的网页，有了这些超链接，可以从任意网站出发，用图的遍历算法，自动访问每一个网页并将其保存下来，这就是网络爬虫。商用的网络爬虫需要成千上万的服务器，并且需要有告诉网络得以连接起来。</p>
+<p>看似离生活很远的理论知识实则与我们每天都在使用的技术都有关，要透过生活去发现更多数学之美，发现更多隐藏的技术。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>算法第一次作业</div>
+      <div>http://shimm3r.github.io/2022/08/30/算法第一次作业/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>shimm3r</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 30, 2022</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>Licensed under</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/13/%E5%88%9D%E8%AF%86ssrf/" title="初识ssrf">
+                        <span class="hidden-mobile">初识ssrf</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'shimm3r/comment');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Table of Contents</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
